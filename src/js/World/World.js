@@ -33,7 +33,18 @@ const hdrURL = new URL('/assets/copyrighted/hdr/studio_small_08_1k.hdr', import.
 
 class World {
   constructor() {
+    console.log('');
+    console.log('fxhash:', fxhash);
     console.log('fxrand:', fxrand());
+    console.log('');
+
+    window.$fxhashFeatures = {
+      "Background": "Black",
+      "Number of lines": 10,
+      "Inverted": true
+    }
+    console.log(window.$fxhashFeatures);
+
     this.renderer = createRenderer();
     this.scene = createScene(this.renderer);
     this.camera = createCamera();
