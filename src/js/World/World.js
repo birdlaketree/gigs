@@ -11,6 +11,7 @@ import { VrControls } from './system/VrControls.js';
 import { createHandsPhysicsController } from "./system/handsPhysicsController.js";
 import { sphere } from './components/meshes/sphere.js';
 import { cube } from "./components/meshes/cube";
+import { cylinder } from "./components/meshes/cylinder";
 import { AmmoPhysics, PhysicsLoader } from '@enable3d/ammo-physics';
 import { roomComposition } from './components/compositions/roomComposition.js';
 import { createWalls } from './components/meshes/walls.js'
@@ -65,15 +66,32 @@ class World {
 
     // plane
 
-    // const planeMaterial = scaleTest(0x000000, envmap, 0.84);
-    // const planeGeom = new PlaneGeometry(2, 2, 4, 4);
-    // const plane = new Mesh( planeGeom, planeMaterial );
-    // plane.rotation.y = TMath.degToRad(45);
-    // plane.rotation.x = TMath.degToRad(-30);
-    // plane.position.x = -2;
-    // plane.position.y = 2;
-    // plane.position.z = -2;
-    // this.scene.add(plane);
+    const planeMaterial = scaleTest(0x000000, envmap, 0.84);
+    const planeGeom = new PlaneGeometry(2, 2, 4, 4);
+    const plane = new Mesh( planeGeom, planeMaterial );
+    plane.rotation.y = TMath.degToRad(45);
+    plane.rotation.x = TMath.degToRad(-30);
+    plane.position.x = -2;
+    plane.position.y = 2;
+    plane.position.z = -2;
+    this.scene.add(plane);
+
+    // cylinder
+    const length = Math.random() + 0.4;
+    const radius = Math.random()/3;
+
+    const gigBaseMaterial = scaleTest(0x000000, envmap, 0.84);
+    const gigBase = cylinder(gigBaseMaterial, length, radius);
+    gigBase.castShadow = true;
+    gigBase.position.x = 0;
+    gigBase.position.y = 1;
+    gigBase.position.z = 0;
+    gigBase.rotation.x = Math.random();
+    gigBase.rotation.y = Math.random();
+    gigBase.rotation.z = Math.random();
+    this.scene.add(gigBase);
+    this.physics.add.existing(gigBase);
+    gigBase.body.setBounciness(0.62);
 
     // spheres
 
