@@ -33,6 +33,7 @@ const hdrURL = new URL('/assets/copyrighted/hdr/studio_small_08_1k.hdr', import.
 
 class World {
   constructor() {
+    console.log('fxrand:', fxrand());
     this.renderer = createRenderer();
     this.scene = createScene(this.renderer);
     this.camera = createCamera();
