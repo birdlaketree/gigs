@@ -1,4 +1,4 @@
-import { Color, Group, PlaneGeometry, Mesh } from "three";
+import { PlaneGeometry, Mesh } from "three";
 import { Math as TMath } from "three";
 import { createColor } from "./utils/createColor.js";
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
@@ -11,25 +11,13 @@ import { VrControls } from './system/VrControls.js';
 import { createHandsPhysicsController } from "./system/handsPhysicsController.js";
 import { sphere } from './components/meshes/sphere.js';
 import { cube } from "./components/meshes/cube";
-import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js';
 import { AmmoPhysics, PhysicsLoader } from '@enable3d/ammo-physics';
-import { PMREMGenerator } from 'three';
 import { roomComposition } from './components/compositions/roomComposition.js';
 import { createWalls } from './components/meshes/walls.js'
 
 import { defaultColorMattPlastic } from "./components/materials/defaultColorMattPlastic.js";
 import { defaultColorShinyPlastic } from "./components/materials/defaultColorShinyPlastic.js";
-import { defaultColorWithNoise } from "./components/materials/defaultColorWithNoise.js";
-
-// import { bentPlane } from "./components/materials/bentPlane.js";
-// import { frostedPlastic } from "./components/materials/frostedPlastic.js";
-// import { steelWithSchratches } from "./components/materials/steelWithScratches.js";
-// import { superDotsGum } from "./components/materials/superDotsGum.js";
-// import { checkerPatternGreen } from "./components/materials/checkerPatternGreen.js";
-
 import { scaleTest } from "./components/materials/scaleTest.js";
-
-const hdrURL = new URL('/assets/copyrighted/hdr/studio_small_08_1k.hdr', import.meta.url);
 
 class World {
   constructor() {
@@ -65,13 +53,12 @@ class World {
     // physics.debug.enable(true);
     this.loop.setPhysics(this.physics);
     const room = roomComposition(this.physics, this.floorSize, false);
-    new RGBELoader().load(hdrURL, (hdrmap) => this.buildScene(hdrmap));
+    this.buildScene();
   }
 
-  buildScene(hdrmap) {
+  buildScene() {
     console.log('buildScene.b0');
-    const envmaploader = new PMREMGenerator(this.renderer);
-    const envmap = envmaploader.fromCubemap(hdrmap);
+    const envmap = { texture: null };
     this.walls = createWalls(this.scene, this.floorSize, envmap);
     this.handsPhysicsController = createHandsPhysicsController(this.scene, this.physics, this.vrControls, envmap);
     const spreadWidth = 10;
@@ -107,7 +94,7 @@ class World {
 
     // white cubes
 
-    const whiteMaterial = defaultColorWithNoise(
+    const whiteMaterial = defaultColorMattPlastic(
       createColor(0, 1, 1),
       envmap
     );
@@ -128,7 +115,7 @@ class World {
 
     // black cubes
 
-    const blackMaterial = defaultColorWithNoise(
+    const blackMaterial = defaultColorMattPlastic(
       createColor(0, 0, 0.06),
       envmap
     );
@@ -149,7 +136,7 @@ class World {
 
     // blue cubes
 
-    const blueMaterial = defaultColorWithNoise(
+    const blueMaterial = defaultColorMattPlastic(
       createColor(0.60, 1, 0.5),
       envmap
     );
