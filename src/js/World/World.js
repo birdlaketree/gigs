@@ -90,7 +90,8 @@ class World {
     const tailLength = 0.8;
     const tailRadius = 0.05;
 
-    const tipY = -(tipLength + baseLength/2);
+    // const tipY = -(tipLength + baseLength/2);
+    const tipY = 1;
     const baseY = tipY + tipLength/2 + baseLength/2;
     const tailY = baseY + baseLength/2 + tailLength/2;
 
@@ -111,9 +112,9 @@ class World {
     // gigTip.rotation.x = Math.random();
     // gigTip.rotation.y = Math.random();
     // gigTip.rotation.z = Math.random();
-    // this.scene.add(gigTip);
-    // this.physics.add.existing(gigTip);
-    // gigTip.body.setBounciness(gigBounciness);
+    this.scene.add(gigTip);
+    this.physics.add.existing(gigTip);
+    gigTip.body.setBounciness(gigBounciness);
 
     // base
 
@@ -131,9 +132,9 @@ class World {
     // gigBase.rotation.x = Math.random();
     // gigBase.rotation.y = Math.random();
     // gigBase.rotation.z = Math.random();
-    // this.scene.add(gigBase);
-    // this.physics.add.existing(gigBase);
-    // gigBase.body.setBounciness(gigBounciness);
+    this.scene.add(gigBase);
+    this.physics.add.existing(gigBase);
+    gigBase.body.setBounciness(gigBounciness);
 
     // tail
 
@@ -150,32 +151,33 @@ class World {
     // gigTail.rotation.x = Math.random();
     // gigTail.rotation.y = Math.random();
     // gigTail.rotation.z = Math.random();
-    // this.scene.add(gigTail);
-    // this.physics.add.existing(gigTail);
-    // gigTail.body.setBounciness(gigBounciness);
+    this.scene.add(gigTail);
+    this.physics.add.existing(gigTail);
+    gigTail.body.setBounciness(gigBounciness);
 
-    const gig = tickedGroup();
-    gig.position.y = 1;
-    gig.add(gigTip);
-    gig.add(gigBase);
-    gig.add(gigTail);
-    this.scene.add(gig);
-    this.physics.add.existing(gig);
-    this.loop.updatables.push(gig);
-    gig.body.setBounciness(gigBounciness);
+    gigBase.body.setAngularVelocityY(120);
+    // gigBase.body.applyForceX(Math.random()*4);
+    // gigBase.body.applyForceZ(Math.random()*4);
+    gigBase.body.needUpdate = true;
+
+    // const gig = tickedGroup();
+    // gig.position.y = 1;
+    // gig.add(gigTip);
+    // gig.add(gigBase);
+    // gig.add(gigTail);
+    // this.scene.add(gig);
+    // this.physics.add.existing(gig);
+    // this.loop.updatables.push(gig);
+    // gig.body.setBounciness(gigBounciness);
     
-    const torqueRange = 100;
-    const velocity = 60;
-    const torque = Math.random() * torqueRange + 1;
-    // gig.body.applyTorque(0, torque, 0);
-    // gig.body.applyTorqueImpulse(0, torque, 0);
-    gig.body.setAngularVelocityY(velocity);
-    // gig.body.applyForceX(Math.random()*10);
-    // gig.body.applyForceZ(Math.random()*10);
-    gig.body.needUpdate = true;
+    // const torqueRange = 100;
+    // const velocity = 60;
+    // const torque = Math.random() * torqueRange + 1;
+    // gig.body.setAngularVelocityY(velocity);
+    // gig.body.needUpdate = true;
 
-    // this.physics.add.constraints.lock(gigTip.body, gigBase.body, true);
-    // this.physics.add.constraints.lock(gigBase.body, gigTail.body, true);
+    this.physics.add.constraints.lock(gigTip.body, gigBase.body, true);
+    this.physics.add.constraints.lock(gigBase.body, gigTail.body, true);
 
     // ---------
     // spheres
